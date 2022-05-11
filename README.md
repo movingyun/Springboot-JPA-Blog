@@ -36,4 +36,46 @@ public class Member {
 		return "lombok test";
 	}
  ```
+## yaml파일
+ > 타 시스템 간에 데이터를 주고 받을 때 데이터 포맷에 대한 약속이 필요함<br>
+ > 기존에는 Xml과 Json파일 포맷을 사용했지만 조금 더 간편화한 포맷이 yaml이다.<br>
+ > **장점** : 우수한 가독성
+ > 
+![yaml비교](https://user-images.githubusercontent.com/97611103/167865340-9badc1de-8614-4094-94cd-1337e7f0b5b4.PNG)
+```
+server:
+  port: 8000
+  servlet:
+    context-path: /blog
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+      
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
+    username: cos
+    password: cos1234
+    
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
 
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+```
