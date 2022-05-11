@@ -16,7 +16,8 @@ public class Member {
 }
 ```
 > **build패턴 사용**<br>
-> DTO - Builder 어노테이션 적용
+> **장점** : 생성자 파라미터의 순서를 지키지 않아도 된다.<br>
+> **DTO** - Builder 어노테이션 적용
 ```
 @Builder
 	public Member(int id, String username, String password, String email) {
@@ -27,7 +28,7 @@ public class Member {
 		this.email = email;
 }
 ```
->Controller - .builder().파라미터1(값1).파라미터2(값2).build()
+>**Controller** - .builder().파라미터1(값1).파라미터2(값2).build()
 ```
 @GetMapping("/http/lombok")
 	public String lombokTest() {
@@ -35,4 +36,4 @@ public class Member {
 		return "lombok test";
 	}
  ```
- > 장점 : 생성자 파라미터의 순서를 지키지 않아도 된다.
+
