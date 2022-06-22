@@ -1,8 +1,13 @@
 package com.cos.blog.test;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,18 +23,32 @@ public class DummyControllerTest {
 	@Autowired //의존성 주입(DI)
 	private UserRepository userRepositoy;
 	
+	@GetMapping("/dummy/users")
+	public List<User> list(){
+		return userRepositoy.findAll();
+	}
+	
+	//한페이지당 2건의 데이터를 리턴
+	@GetMapping("/dummy/user")
+	public List<User> pageList(@PageableDefault(size = 2,sort = "id",direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable){
+		Page<User> pagingUser = userRepositoy.findAll(pageable);
+		
+		List<User> users = pagingUser.getContent();
+		return users;
+	}
+	
 	//{id} 주소로 파라미터를 전달 받을 수 있음.
 	//http://localhost:8000/blog/dummy/user/3
 	@GetMapping("/dummy/user/{id}")
 	public User detail(@PathVariable int id) {
 		//id로 조회를 하자.
 		//있으면 userRepositoy.findById(id)로 찾아오고
-		//없으면 override된 함수로 빈 객체를 만들어
+		//없으면 override된 함수로 해당유저 없다고 메세지 날려주자
 		User user = userRepositoy.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {
 			@Override
 			public IllegalArgumentException get() {
 				// TODO Auto-generated method stub
-				return new IllegalArgumentException("해당 유저는 없습니다.");
+				return new IllegalArgumentException(id+"번 유저는 없습니다.");
 			}
 		});
 		return user;
