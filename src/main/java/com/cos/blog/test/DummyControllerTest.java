@@ -6,10 +6,12 @@ import java.util.function.Supplier;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +28,18 @@ public class DummyControllerTest {
 	
 	@Autowired //의존성 주입(DI)
 	private UserRepository userRepositoy;
+	
+	//삭제하기
+	@DeleteMapping("/dummy/user/{id}")
+	public String delete(@PathVariable int id) {
+		try {
+			userRepositoy.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			return "삭제에 실패했습니다.";
+		}
+		return "삭제되었습니다.";
+	}
+	
 	
 	//업데이트
 	@Transactional
