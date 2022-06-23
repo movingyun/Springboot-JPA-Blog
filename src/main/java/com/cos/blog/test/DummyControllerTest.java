@@ -41,7 +41,6 @@ public class DummyControllerTest {
 		originUser.setPassword(requestUser.getPassword());
 		originUser.setEmail(requestUser.getEmail());
 //		userRepositoy.save(originUser);
-		
 		return null;
 	}
 	
