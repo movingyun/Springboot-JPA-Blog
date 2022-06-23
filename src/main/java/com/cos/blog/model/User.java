@@ -31,7 +31,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //프로젝트에서 연결된 DB의 넘버링 전략을 따라감.(=mySQL에서는 auto_increment를 사용하겠다!)
 	private int id; //auto_increment
 	
-	@Column(nullable = false,length = 30) //Column어노테이션으로 컬럼 속성 준다(Notnull, 길이 = 30)
+	@Column(nullable = false,length = 30, unique = true) //Column어노테이션으로 컬럼 속성 준다(Notnull, 길이 = 30)
 	private String username; //아이디
 	
 	@Column(nullable = false,length = 100) //Notnull, 길이 = 100
