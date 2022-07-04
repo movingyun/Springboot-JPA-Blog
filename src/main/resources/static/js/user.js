@@ -3,9 +3,6 @@ let index={
 		$("#btn-save").on("click",()=>{
 			this.save();
 		});
-		$("#btn-login").on("click",()=>{
-			this.login();
-		});
 	},	
 
 	save:function(){
@@ -20,7 +17,7 @@ let index={
 		$.ajax({
 			// 회원가입 수행 요청
 			type : "POST",
-			url:"/api/user",
+			url:"/auth/joinProc",
 			data:JSON.stringify(data), // java객체를 json형태로 변경
 			contentType:"application/json; charset=utf-8", // body데이터가 어떤 타입인지
 			dataType:"json" // 요청을 서버로해서 응답이 왔을 때 생긴게 json이라면(기본적으로 모든것이 문자열) ->
@@ -36,32 +33,6 @@ let index={
 		});
 	},
 	
-	login:function(){
-		let data = {
-			username: $("#username").val(),
-			password: $("#password").val(),
-		}
-		// ajax호출시 default가 비동기 호출
-		// ajax통신을 이용해서 3개의 데이터를 json으로 변경하여 insert요청
-		$.ajax({
-			// 회원가입 수행 요청
-			type : "POST",
-			url:"/api/user/login",
-			data:JSON.stringify(data), // java객체를 json형태로 변경
-			contentType:"application/json; charset=utf-8", // body데이터가 어떤 타입인지
-			dataType:"json" // 요청을 서버로해서 응답이 왔을 때 생긴게 json이라면(기본적으로 모든것이 문자열) ->
-							// JS오브젝트로 변경
-		}).done(function(resp){
-			// 요청이 성공하면 ㄱㄱ
-			alert("로그인이 완료되었습니다.")
-			alert(resp)
-			location.href="/";
-		}).fail(function(error){
-			// 요청이 실패하면 ㄱㄱ
-			alert("로그인 실패")
-			alert(JSON.stringify(error));
-		});
-	}
 }
 
 index.init();
