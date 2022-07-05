@@ -15,17 +15,25 @@ import com.cos.blog.repositoy.BoardRepository;
 public class BoardService {
 	
 	@Autowired
-	private BoardRepository BoardRepository;
+	private BoardRepository boardRepository;
 	
 	@Transactional
 	public void 글쓰기(Board board, User user) {//title content 받아옴
 		board.setCount(0);
 		board.setUser(user);
-		BoardRepository.save(board);
+		boardRepository.save(board);
 	}
 
 	
 	public Page<Board> 글목록(Pageable pageable) {
-		return BoardRepository.findAll(pageable);
+		return boardRepository.findAll(pageable);
+	}
+
+
+	public Board 글상세보기(int id) {
+		return boardRepository.findById(id)
+				.orElseThrow(()->{
+					return new IllegalArgumentException("글 상세보기 실패");
+				});
 	}
 }
