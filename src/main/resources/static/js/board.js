@@ -6,6 +6,9 @@ let index={
 		$("#btn-delete").on("click",()=>{
 			this.deleteById();
 		});
+		$("#btn-update").on("click",()=>{
+			this.update();
+		});
 	},	
 
 	save:function(){
@@ -30,7 +33,7 @@ let index={
 		});
 	},
 	deleteById:function(){
-		var id = $("#id").text();
+		let id = $("#id").text();
 		console.log(id);
 		$.ajax({
 			// 회원가입 수행 요청
@@ -40,6 +43,27 @@ let index={
 		}).done(function(resp){
 			// 요청이 성공하면 ㄱㄱ
 			alert("삭제가 완료되었습니다.")
+			location.href="/";
+		}).fail(function(error){
+			// 요청이 실패하면 ㄱㄱ
+			alert(JSON.stringify(error));
+		});
+	},
+	update:function(){
+		let id= $("#id").val();
+		let data = {
+			title: $("#title").val(),
+			content: $("#content").val(),
+		}
+		$.ajax({
+			type : "PUT",
+			url:"/api/board/"+id,
+			data:JSON.stringify(data), // java객체를 json형태로 변경
+			contentType:"application/json; charset=utf-8", // body데이터가 어떤 타입인지
+			dataType:"json" 
+		}).done(function(resp){
+			// 요청이 성공하면 ㄱㄱ
+			alert("수정이 완료되었습니다.")
 			location.href="/";
 		}).fail(function(error){
 			// 요청이 실패하면 ㄱㄱ
