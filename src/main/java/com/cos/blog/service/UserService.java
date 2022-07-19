@@ -1,6 +1,10 @@
 package com.cos.blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,10 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
+	//변경된 계정으로 세션을 새로 넣어주기 위해서 사용
+	@Autowired
+	private AuthenticationManager authenticationManager; 
+	
 	// 회원가입
 	@Transactional
 	public void 회원가입(User user) {
@@ -38,6 +46,11 @@ public class UserService {
 		String encPassword = encoder.encode(rawPassword);
 		originUser.setPassword(encPassword);
 		originUser.setEmail(user.getEmail());
+		
+		//변경된 계정으로 세션 새로 등록
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
 		//회원수정 함수 종료시 = 서비스 종료 = 트랜잭션 종료 = commit이 자동으로 된다.
 		//영속화된 originUser 객체의 변화가 감지되면 더티체킹이 되어 update문을 날려줌
 	}
